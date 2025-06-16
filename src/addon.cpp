@@ -44,7 +44,7 @@ std::string Addon::getEndpoint() const {
 }
 
 nlohmann::json Addon::getCatalogs() const {
-    return manifest["addonCatalogs"];
+    return manifest["catalogs"];
 }
 
 Catalog Addon::getCatalog(const std::string type, const std::string id) const {
