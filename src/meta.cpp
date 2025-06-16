@@ -1,11 +1,12 @@
 #include "meta.hpp"
 
-Meta::Meta(std::string id, std::string type, std::string name, std::string posterUrl, std::string description) {
+Meta::Meta(std::string id, std::string type, std::string name, std::string posterUrl, std::string description, nlohmann::json videos) {
     this->id = id;
     this->type = type;
     this->name = name;
     this->posterUrl = posterUrl;
     this->description = description;
+    this->videos = videos;
 }
 
 std::string Meta::getId() {
@@ -26,4 +27,8 @@ std::string Meta::getPosterUrl() {
 
 std::string Meta::getDescription() {
     return description;
+}
+
+nlohmann::json Meta::getVideos() const {
+    return videos;
 }

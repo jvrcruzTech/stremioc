@@ -191,7 +191,8 @@ Meta Addon::getMeta(const std::string type, const std::string id) const {
         metaData["type"].get<std::string>(),
         metaData["name"].get<std::string>(),
         metaData["poster"].get<std::string>(),
-        metaData["description"].get<std::string>()
+        metaData["description"].get<std::string>(),
+        metaData.contains("videos") ? metaData["videos"] : nlohmann::json()
     );
 }
 

@@ -9,13 +9,15 @@ using json = nlohmann::json;
 
 class Meta {
     public:
-        Meta(std::string id, std::string type, std::string name, std::string posterUrl, std::string description);
+        Meta(std::string id, std::string type, std::string name, std::string posterUrl, std::string description, nlohmann::json videos = json());
 
         std::string getId();
         std::string getType();
         std::string getName();
         std::string getPosterUrl();
         std::string getDescription();
+        json getVideos() const;
+
 
     private:
         std::string id;          // Unique identifier for the meta
@@ -23,5 +25,6 @@ class Meta {
         std::string name;        // Name of the meta
         std::string posterUrl;   // URL to the poster image
         std::string description; // Description of the meta
+        json videos;            // JSON object containing video information (optional)
 
 };
