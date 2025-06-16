@@ -43,21 +43,43 @@ std::string Addon::getEndpoint() const {
     return addonEndpoint;
 }
 
+nlohmann::json Addon::getCatalogs() const {
+    return manifest["addonCatalogs"];
+}
+
 Catalog Addon::getCatalog(const std::string type, const std::string id) const {
     if (transport != "http") {
-        Logger::error("Unsupported transport: %s", transport.c_str());
+        Logger::error("Unsupported transport");
         return; // Return an empty Catalog object
     }
     std::string url = addonEndpoint + "/catalog/" + type + "/" + id + ".json";
 
     CURL* curl = curl_easy_init();
 
+    if (!curl) {
+        Logger::error("Failed to initialize CURL for fetching catalog data.");
+        return; // Return an empty Catalog object
+    }
+
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    std::string readBuffer;
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, nullptr);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+
+    CURLcode res = curl_easy_perform(curl);
+    curl_easy_cleanup(curl);
+    if (res != CURLE_OK) {
+        Logger::error("curl_easy_perform() failed");
+        return; // Return an empty Catalog object
+    }
+    nlohmann::json response = nlohmann::json::parse(readBuffer);
+    return Catalog(response);
 }
 
 list<Stream> Addon::getStream(const std::string type, const std::string id) const {
 
     if (transport != "http") {
-        Logger::error("Unsupported transport: %s", transport.c_str());
+        Logger::error("Unsupported transport");
         return list<Stream>(); // Return an empty list of Stream objects
     }
 
@@ -75,7 +97,7 @@ list<Stream> Addon::getStream(const std::string type, const std::string id) cons
     CURLcode res = curl_easy_perform(curl);
     curl_easy_cleanup(curl);
     if (res != CURLE_OK) {
-        Logger::error("curl_easy_perform() failed: %s", curl_easy_strerror(res));
+        Logger::error("curl_easy_perform() failed");
         return list<Stream>(); // Return an empty Stream object
     }
 
@@ -102,9 +124,39 @@ list<Stream> Addon::getStream(const std::string type, const std::string id) cons
 
 }
 
+Catalog Addon::searchCatalog(const std::string type, const std::string id, const std::string query) const {
+    if (transport != "http") {
+        Logger::error("Unsupported transport");
+        return;
+    }
+
+    std::string url = addonEndpoint + "/catalog/" + type + "/" + id + "/search= " + query + ".json" + query;
+
+    CURL* curl = curl_easy_init();
+    if (!curl) {
+        Logger::error("Failed to initialize CURL for searching catalog.");
+        return; // Return an empty list of Stream objects
+    }
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    std::string readBuffer;
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, nullptr);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+    CURLcode res = curl_easy_perform(curl);
+    curl_easy_cleanup(curl);
+    if (res != CURLE_OK) {
+        Logger::error("curl_easy_perform() failed");
+        return; // Return an empty list of Stream objects
+    }
+
+    nlohmann::json response = nlohmann::json::parse(readBuffer);
+
+    
+    return Catalog(response);
+}
+
 Meta Addon::getMeta(const std::string type, const std::string id) const {
     if (transport != "http") {
-        Logger::error("Unsupported transport: %s", transport.c_str());
+        Logger::error("Unsupported transport");
         return; // Return an empty Meta object
     }
 
@@ -123,14 +175,14 @@ Meta Addon::getMeta(const std::string type, const std::string id) const {
     CURLcode res = curl_easy_perform(curl);
     curl_easy_cleanup(curl);
     if (res != CURLE_OK) {
-        Logger::error("curl_easy_perform() failed: %s", curl_easy_strerror(res));
+        Logger::error("curl_easy_perform() failed");
         return Meta("", "", "", "", ""); // Return an empty Meta object
     }
 
     nlohmann::json response = nlohmann::json::parse(readBuffer);
     nlohmann::json metaData = response["meta"];
     if (metaData.is_null()) {
-        Logger::error("No meta data found for type: %s, id: %s", type.c_str(), id.c_str());
+        Logger::error("No meta data found for type");
         return Meta("", "", "", "", ""); // Return an empty Meta object
     }
 

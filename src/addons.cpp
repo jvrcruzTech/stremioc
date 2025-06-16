@@ -53,7 +53,7 @@ bool AddonCollection::updateAddonCollection() {
     json addonsJson = StremioUtils::getAddonsFromDB();
 
     if (addonsJson["error"].is_string()) {
-        Logger::error("Error retrieving addons: %s", addonsJson["error"].get<std::string>().c_str());
+        Logger::error("Error retrieving addons");
         return false;
     }
 
@@ -64,17 +64,16 @@ bool AddonCollection::updateAddonCollection() {
 
             std::string endpoint;
             if (pos == std::string::npos) {
-                Logger::error("Invalid transport URL format: %s", transportUrl.c_str());
+                Logger::error("Invalid transport URL format:");
                 continue; // Skip this addon if the URL is invalid
             } else {
-                Logger::info("Found transport URL: %s", transportUrl.c_str());
                 endpoint = transportUrl.erase(pos, std::string("/manifest.json").length());
             }
 
             Addon addon = Addon(addonJson["manifest"], endpoint, addonJson["transportName"].get<std::string>());
             addons.push_back(addon);
         } catch (const std::exception& e) {
-            Logger::error("Failed to parse addon: %s", e.what());
+            Logger::error("Failed to parse addon");
             continue;
         }
     }

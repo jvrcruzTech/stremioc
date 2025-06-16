@@ -1,4 +1,5 @@
 #include "logger.hpp"
+#include <cstdarg>
 
 void Logger::overrideLogger(void (*logFunction)(const std::string& message)) {
     Logger::logFunction = logFunction;
@@ -22,9 +23,9 @@ void Logger::warning(const std::string& message) {
 
 void Logger::info(const std::string& message) {
     if (logFunction) {
-        logFunction("INFO: " + message);
+        logFunction(message);
     } else {
-        fprintf(stdout, "INFO: %s\n", message.c_str());
+        fprintf(stdout, "%s\n", message.c_str());
     }
 }
 void (*Logger::logFunction)(const std::string& message) = nullptr; // Initialize static member

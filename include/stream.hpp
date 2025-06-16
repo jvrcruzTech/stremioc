@@ -18,6 +18,7 @@ class Stream {
         int getFileIdx() const;
         std::string getDescription() const;
         json getBehaviorHints() const;
+        string getType() const;
 
         void setUrl(const std::string& url);
         void setTorrent(const std::string& infoHash, int fileIndex = -1);

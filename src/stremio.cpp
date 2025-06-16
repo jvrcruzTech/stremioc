@@ -24,7 +24,7 @@ void StremioUtils::login(const std::string& email, const std::string& password) 
         curl_easy_cleanup(curl);
 
         if(res != CURLE_OK) {
-            Logger::error("curl_easy_perform() failed: %s", curl_easy_strerror(res));
+            Logger::error("curl_easy_perform() failed");
             return;
         }
         json response = json::parse(readBuffer);
@@ -33,9 +33,9 @@ void StremioUtils::login(const std::string& email, const std::string& password) 
         if (response.contains("authToken")) {
             authToken = response["authKey"];
             userJson = response["user"].dump();
-            Logger::info("Login successful, authToken: %s", authToken);
+            Logger::info("Login successful, authToken");
         } else {
-            Logger::error("Login failed: %s", response.dump().c_str());
+            Logger::error("Login failed");
         }
     }
 }
@@ -70,7 +70,7 @@ nlohmann::json StremioUtils::getAddonsFromDB() {
         curl_easy_cleanup(curl);
 
         if(res != CURLE_OK) {
-            Logger::error("curl_easy_perform() failed: %s", curl_easy_strerror(res));
+            Logger::error("curl_easy_perform() failed");
             return addons;
         }
         json response = json::parse(readBuffer);

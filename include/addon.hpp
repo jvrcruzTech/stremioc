@@ -21,10 +21,12 @@ class Addon {
         nlohmann::json getTypes() const;
         std::string getVersion() const;
         nlohmann::json getResources() const;
+        nlohmann::json getCatalogs() const;
         nlohmann::json getIdPrefixes() const;
         std::string getEndpoint() const;
 
         Catalog getCatalog(const std::string type, const std::string id) const;
+        Catalog searchCatalog(const std::string type,const std::string id,const std::string query) const;
         list<Stream> getStream(const std::string type, const std::string id) const;
         Meta getMeta(const std::string type, const std::string id) const;
         nlohmann::json getSubtitles(const std::string type, const std::string id) const;

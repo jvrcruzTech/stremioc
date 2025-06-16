@@ -38,6 +38,13 @@ std::string Stream::getInfoHash() const {
     return infoHash;
 }
 
+std::string Stream::getType() const {
+    if (url.empty()) {
+        return "torrent"; // Default type if URL is not set
+    }
+    return "http"; // Default type if URL is set
+}
+
 int Stream::getFileIdx() const {
     if (fileIndex < 0) {
         return; // Return void if fileIndex is not set
