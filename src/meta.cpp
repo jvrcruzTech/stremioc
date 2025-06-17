@@ -1,6 +1,6 @@
 #include "meta.hpp"
 
-Meta::Meta(std::string id, std::string type, std::string name, std::string posterUrl, std::string description, nlohmann::json videos, std::string year, nlohmann::json genres, std::string backgroundUrl) {
+Meta::Meta(std::string id, std::string type, std::string name, std::string posterUrl, std::string description, nlohmann::json videos, std::string year, nlohmann::json genres, std::string backgroundUrl, std::string logoUrl) {
     this->id = id;
     this->type = type;
     this->name = name;
@@ -10,6 +10,7 @@ Meta::Meta(std::string id, std::string type, std::string name, std::string poste
     this->year = year;
     this->genres = genres;
     this->backgroundUrl = backgroundUrl;
+    this->logoUrl = logoUrl;
 }
 
 std::string Meta::getId() {
@@ -42,6 +43,10 @@ nlohmann::json Meta::getGenres() const {
 
 std::string Meta::getBackgroundUrl() const {
     return backgroundUrl;
+}
+
+std::string Meta::getLogoUrl() const {
+    return logoUrl;
 }
 
 nlohmann::json Meta::getVideos() const {

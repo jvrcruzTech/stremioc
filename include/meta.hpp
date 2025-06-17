@@ -9,7 +9,7 @@ using json = nlohmann::json;
 
 class Meta {
     public:
-        Meta(std::string id, std::string type, std::string name, std::string posterUrl, std::string description, nlohmann::json videos = json(), std::string year, nlohmann::json genres, std::string backgroundUrl);
+        Meta(std::string id, std::string type, std::string name, std::string posterUrl, std::string description, nlohmann::json videos = json(), std::string year, nlohmann::json genres, std::string backgroundUrl, std::string logoUrl = "");
 
         std::string getId();
         std::string getType();
@@ -20,6 +20,7 @@ class Meta {
         std::string getYear() const;
         json getGenres() const;
         std::string getBackgroundUrl() const;
+        std::string getLogoUrl() const;
 
 
     private:
@@ -32,5 +33,6 @@ class Meta {
         std::string year;          // Year of release 
         json genres;           // Genres associated with the meta 
         std::string backgroundUrl; // URL to the background image 
+        std::string logoUrl;       // URL to the logo image
 
 };
