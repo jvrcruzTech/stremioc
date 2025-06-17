@@ -107,6 +107,7 @@ list<Stream> Addon::getStream(const std::string type, const std::string id) cons
     list<Stream> streams;
     for (const auto& stream : streamsData) {
         Stream streamObj = Stream(
+            id,
             stream["name"].get<std::string>(),
             stream["description"].get<std::string>()
         );

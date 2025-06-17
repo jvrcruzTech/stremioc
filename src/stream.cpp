@@ -1,8 +1,13 @@
 #include "stream.hpp"
 
-Stream::Stream(std::string name, std::string description) {
+Stream::Stream(std::string contentId, std::string name, std::string description) {
+    this->contentId = contentId;
     this->name = name;
     this->description = description;
+}
+
+std::string Stream::getContentId() const {
+    return contentId;
 }
 
 void Stream::setUrl(const std::string& url) {

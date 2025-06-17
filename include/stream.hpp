@@ -10,8 +10,10 @@ using namespace std;
 
 class Stream {
     public:
-        Stream(string name, string description);
+        Stream(std::string contentId, string name, string description);
 
+
+        std::string getContentId() const;
         std::string getUrl() const;
         std::string getName() const;
         std::string getInfoHash() const;
@@ -25,6 +27,7 @@ class Stream {
         void setBehaviorHints(const json& behaviorHints);
 
     private:
+        std::string contentId; // Unique identifier for the content
         std::string url; // URL of the stream
         std::string infoHash; // Info hash for torrent streams
         int fileIndex; // Index of the file in a torrent (optional)
