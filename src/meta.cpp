@@ -13,23 +13,23 @@ Meta::Meta(std::string id, std::string type, std::string name, std::string poste
     this->logoUrl = logoUrl;
 }
 
-std::string Meta::getId() {
+std::string Meta::getId() const {
     return id;
 }
 
-std::string Meta::getType() {
+std::string Meta::getType() const {
     return type;
 }
 
-std::string Meta::getName() {
+std::string Meta::getName() const {
     return name;
 }
 
-std::string Meta::getPosterUrl() {
+std::string Meta::getPosterUrl() const {
     return posterUrl;
 }
 
-std::string Meta::getDescription() {
+std::string Meta::getDescription() const {
     return description;
 }
 

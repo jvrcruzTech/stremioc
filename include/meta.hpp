@@ -11,11 +11,11 @@ class Meta {
     public:
         Meta(std::string id, std::string type, std::string name, std::string posterUrl, std::string description, nlohmann::json videos = json(), std::string year, nlohmann::json genres, std::string backgroundUrl, std::string logoUrl = "");
 
-        std::string getId();
-        std::string getType();
-        std::string getName();
-        std::string getPosterUrl();
-        std::string getDescription();
+        std::string getId() const;
+        std::string getType() const;
+        std::string getName() const;
+        std::string getPosterUrl() const;
+        std::string getDescription() const;
         json getVideos() const;
         std::string getYear() const;
         json getGenres() const;
