@@ -187,12 +187,14 @@ Meta Addon::getMeta(const std::string type, const std::string id) const {
     }
 
     return Meta(
-        metaData["id"].get<std::string>(),
-        metaData["type"].get<std::string>(),
-        metaData["name"].get<std::string>(),
-        metaData["poster"].get<std::string>(),
-        metaData["description"].get<std::string>(),
-        metaData.contains("videos") ? metaData["videos"] : nlohmann::json()
+        metaData.value("id", std::string()),
+        metaData.value("type", std::string()),
+        metaData.value("name", std::string()),
+        metaData.value("poster", std::string()),
+        metaData.value("description", std::string()),
+        metaData.value("videos", nlohmann::json()),
+        metaData.value("year", std::string()),
+        metaData.value("genres", nlohmann::json())
     );
 }
 
